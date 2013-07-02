@@ -16,7 +16,7 @@
     {description, "Extract/Transform/Load system"},
     {vsn, "0.0.1"},
     {modules, []},
-    {registered. []},
+    {registered, []},
     {applications, [kernel, stdlib, cowboy]},
     {mod, {erlyetl_app, []}},
     {env, []}

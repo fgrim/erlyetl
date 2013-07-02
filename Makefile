@@ -1,13 +1,23 @@
-DEPS_DIR ?= $(CURDIR)/deps
+PROJECT ?= erlyetl
+DEPS_DIR ?= deps
 export DEPS_DIR
 
-ALL_DEPS_DIRS = $(addprefix $(DEPS_DIR)/,$(DEPS))
+all: get-deps app
+
+app: ebin/$(PROJECT).app
+	rebar compile
+
+ebin/$(PROJECT).app:
+	@mkdir -p ebin/
 
 clean-all: clean clean-deps
 	rm -rf logs
 
-deps:
+get-deps:
 	rebar get-deps
 
+clean:
+	rm -rf ebin
+
 clean-deps:
-	rm -r $(DEPS_DIR)
+	rm -rf $(DEPS_DIR)
