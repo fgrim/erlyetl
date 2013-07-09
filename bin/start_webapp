@@ -1,0 +1,15 @@
+#!/bin/sh
+ROOT=`python -c "import os.path, os; print os.path.normpath('%s' % os.path.abspath(os.curdir))"`
+
+if [ ! -e  "$ROOT/etc/erlang.cookie" ]
+then
+    NEWCOOKIE=`python -c "import random, string; print ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(20))"`;
+    echo $NEWCOOKIE > "$ROOT/etc/erlang.cookie";
+    COOKIE=$NEWCOOKIE
+else
+    COOKIE=`cat $ROOT/etc/erlang.cookie`
+fi
+
+exec erl +K true -pa $ROOT/ebin -pa deps/*/ebin \
+    -boot start_sasl -config "$ROOT/etc/erlyetl_boss" \
+    -s boss -setcookie "$COOKIE" -sname erlyetl
