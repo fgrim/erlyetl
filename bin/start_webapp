@@ -10,6 +10,16 @@ else
     COOKIE=`cat $ROOT/etc/erlang.cookie`
 fi
 
+EXTRA_COMMANDS="";
+
+case "$1" in
+    "shell")
+        ;;
+    *) 
+        EXTRA_COMMANDS="-detached ${EXTRA_COMMANDS}"
+        ;;
+esac
+
 exec erl +K true -pa $ROOT/ebin -pa deps/*/ebin \
     -boot start_sasl -config "$ROOT/etc/erlyetl_boss" \
-    -s boss -setcookie "$COOKIE" -sname erlyetl
+    -s boss -setcookie "$COOKIE" -sname erlyetl $EXTRA_COMMANDS
