@@ -1,14 +1,13 @@
 PROJECT ?= erlyetl
 DEPS_DIR ?= deps
+ERL ?=  erl
+
 export DEPS_DIR
 
 all: get-deps app
 
-app: ebin/$(PROJECT).app
+app:
 	rebar compile
-
-ebin/$(PROJECT).app:
-	@mkdir -p ebin/
 
 clean-all: clean clean-deps
 	rm -rf logs

@@ -21,5 +21,5 @@ case "$1" in
 esac
 
 exec erl +K true -pa $ROOT/ebin -pa deps/*/ebin \
-    -boot start_sasl -config "$ROOT/etc/erlyetl_boss" \
-    -s boss -setcookie "$COOKIE" -sname erlyetl $EXTRA_COMMANDS
+    -boot start_sasl -config "$ROOT/etc/erlyetl" \
+    -s erlyetl -setcookie "$COOKIE" -sname erlyetl $EXTRA_COMMANDS

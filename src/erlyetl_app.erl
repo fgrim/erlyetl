@@ -18,6 +18,22 @@
 -export([start/2, stop/1]).
 
 start(_, _) ->
+    Dispatch = cowboy_router:compile([
+		{'_', [
+			{"/", base_etl_handler, []}
+		]}
+	]),
+	{ok, _} = cowboy:start_http(http, 100, [{port, 8080}], [
+		{env, [{dispatch, Dispatch}]}
+	]),
     erlyetl_sup:start_link().
 
 stop(_) -> ok.
+
+%%
+%% Tests
+%%
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+-endif.
