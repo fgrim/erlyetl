@@ -20,12 +20,14 @@
 start(_, _) ->
     Dispatch = cowboy_router:compile([
 		{'_', [
-			{"/", base_etl_handler, []}
+			{"/", base_etl_handler, []},
+            {"/pipeline", pipeline_handler, []},
+            {"/stage", stage_handler, []}
 		]}
 	]),
-	{ok, _} = cowboy:start_http(http, 100, [{port, 8080}], [
-		{env, [{dispatch, Dispatch}]}
-	]),
+	{ok, _} = cowboy:start_http(http, 100, [
+            {port, application:get_env(erlyetl, webport, 8001)}],
+                                           [{env, [{dispatch, Dispatch}]}]),
     erlyetl_sup:start_link().
 
 stop(_) -> ok.
