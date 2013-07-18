@@ -7,16 +7,14 @@ export DEPS_DIR
 all: get-deps app
 
 app:
-	rebar compile
+	rebar compile generate
 
-clean-all: clean clean-deps
+clean: clean-deps
 	rm -rf logs
+	rm -rf ebin
 
 get-deps:
 	rebar get-deps
-
-clean:
-	rm -rf ebin
 
 clean-deps:
 	rm -rf $(DEPS_DIR)

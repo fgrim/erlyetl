@@ -8,3 +8,4 @@ ebin
 *.swp
 *.dump
 etc/erlang.cookie
+rel/erlyetl
