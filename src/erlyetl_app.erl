@@ -22,15 +22,22 @@ start(_, _) ->
 		{'_', [
 			{"/", base_etl_handler, []},
             {"/pipeline", pipeline_handler, []},
-            {"/stage", stage_handler, []}
-		]}
-	]),
-	{ok, _} = cowboy:start_http(http, 100, [
-            {port, application:get_env(erlyetl, webport, 8001)}],
+            {"/stage", stage_handler, []},
+            {"/auth/:provider/:action", cowboy_social, [{<<"google">>, get_social_params() ++ [
+                {callback_uri, <<"/oauth2callback">>},
+                {scope, << "https://www.googleapis.com/auth/userinfo.email ", "https://www.googleapis.com/auth/userinfo.profile" >>},
+                {authorize_uri, <<"https://accounts.google.com/o/oauth2/auth">>},
+                {token_uri, <<"https://accounts.google.com/o/oauth2/token">>}]}]}
+	    ]}
+    ]),
+	{ok, _} = cowboy:start_http(http, 100, [{port, application:get_env(erlyetl, webport, 8001)}],
                                            [{env, [{dispatch, Dispatch}]}]),
     erlyetl_sup:start_link().
 
 stop(_) -> ok.
+
+get_social_params() ->
+    [{client_id, <<"">>}, {client_secret, <<"">>}].
 
 %%
 %% Tests

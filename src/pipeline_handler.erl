@@ -12,12 +12,25 @@
 %% ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 %% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
 
-{application, erlyetl, [
-    {description, "Extract/Transform/Load system"},
-    {vsn, "0.0.1"},
-    {modules, []},
-    {registered, []},
-    {applications, [kernel, stdlib, cowboy, ssl, social]},
-    {mod, {erlyetl_app, []}},
-    {env, []}
-]}.
+-module(pipeline_handler).
+
+-export([init/3, handle/2, terminate/3]).
+
+init(_Transport, Req, []) ->
+	{ok, Req, undefined}.
+
+handle(Req, State) ->
+	{ok, Req4} = cowboy_req:reply(200, 
+        [{<<"content-encoding">>, <<"utf-8">>}], <<"Hello">>, Req),
+	{ok, Req4, State}.
+
+terminate(_Reason, _Req, _State) ->
+	ok.
+
+%%
+%% Tests
+%%
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+-endif.

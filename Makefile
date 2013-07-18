@@ -10,8 +10,7 @@ app:
 	rebar compile generate
 
 clean: clean-deps
-	rm -rf logs
-	rm -rf ebin
+	rm -rf logs ebin erl_crash.dump bin/erl_crash.dump
 
 get-deps:
 	rebar get-deps

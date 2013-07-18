@@ -20,7 +20,6 @@ init(_Transport, Req, []) ->
 	{ok, Req, undefined}.
 
 handle(Req, State) ->
-	{Method, Req2} = cowboy_req:method(Req),
 	{ok, Req4} = cowboy_req:reply(200, 
         [{<<"content-encoding">>, <<"utf-8">>}], <<"Hello">>, Req),
 	{ok, Req4, State}.
