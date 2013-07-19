@@ -29,6 +29,4 @@ to_hex(BitsString) ->
 
 gen_session_id() ->
     RandomData = crypto:strong_rand_bytes(224),
-    SiteKey = application:get_env(erlyetl, site_secret_key, <<"...">>),
-    SessionData = <<SiteKey/binary, RandomData/binary>>,
-    to_hex(crypto:hash(sha224, SessionData)).
+    to_hex(crypto:hash(sha224, RandomData)).
