@@ -13,6 +13,7 @@
 %% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. 
 
 -module(erlyetl_app).
+-author('frederick.grim@gmail.com').
 -behaviour(application).
 
 -export([start/2, stop/1]).
@@ -27,7 +28,8 @@ start(_, _) ->
                 {callback_uri, <<"/oauth2callback">>},
                 {scope, << "https://www.googleapis.com/auth/userinfo.email ", "https://www.googleapis.com/auth/userinfo.profile" >>},
                 {authorize_uri, <<"https://accounts.google.com/o/oauth2/auth">>},
-                {token_uri, <<"https://accounts.google.com/o/oauth2/token">>}]}]}
+                {token_uri, <<"https://accounts.google.com/o/oauth2/token">>}]}]},
+            {"/oauth2callback", erlyetl_session_handler, []}
 	    ]}
     ]),
 	{ok, _} = cowboy:start_http(http, 100, [{port, application:get_env(erlyetl, webport, 8001)}],
@@ -37,7 +39,9 @@ start(_, _) ->
 stop(_) -> ok.
 
 get_social_params() ->
-    [{client_id, <<"">>}, {client_secret, <<"">>}].
+    ClientSecret = application:get_env(erlyetl, google_client_secret, <<"...">>), 
+    ClientID = application:get_env(erlyetl, google_client_id, <<"...">>), 
+    [{client_id, ClientID}, {client_secret, ClientSecret}].
 
 %%
 %% Tests
